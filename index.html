@@ -18,12 +18,22 @@
   --text-primary: #e5e7eb;
   --text-secondary: #9ca3af;
   --text-muted: #6b7280;
-  --accent-blue: #3b82f6;
   --accent-green: #10b981;
+  --accent-blue: #3b82f6;
+  --accent-purple: #8b5cf6;
   --accent-orange: #f59e0b;
   --accent-red: #ef4444;
-  --accent-purple: #8b5cf6;
   --accent-cyan: #06b6d4;
+}
+[data-theme="light"] {
+  --bg-primary: #f8fafc;
+  --bg-secondary: #ffffff;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f1f5f9;
+  --border-color: #e2e8f0;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
 }
 * { box-sizing: border-box; }
 body {
@@ -32,12 +42,11 @@ body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   margin: 0;
   min-height: 100vh;
-  overflow-x: hidden;
+  transition: background 0.3s, color 0.3s;
 }
 ::-webkit-scrollbar { width: 8px; height: 8px; }
 ::-webkit-scrollbar-track { background: var(--bg-secondary); }
 ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: var(--accent-blue); }
 
 /* Layout */
 .app-wrapper { display: flex; min-height: 100vh; }
@@ -126,11 +135,22 @@ body {
   padding: 20px;
   transition: all 0.3s;
   height: 100%;
+  position: relative;
+  overflow: hidden;
 }
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 4px; height: 100%;
+}
+.stat-card.green::before { background: var(--accent-green); }
+.stat-card.blue::before { background: var(--accent-blue); }
+.stat-card.purple::before { background: var(--accent-purple); }
+.stat-card.orange::before { background: var(--accent-orange); }
 .stat-card:hover {
-  background: var(--bg-card-hover);
   transform: translateY(-2px);
-  border-color: var(--accent-blue);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
 }
 .stat-card .stat-icon {
   width: 44px; height: 44px;
@@ -148,49 +168,17 @@ body {
   margin-bottom: 6px;
 }
 .stat-card .stat-value {
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 700;
   color: var(--text-primary);
   line-height: 1.2;
+  font-variant-numeric: tabular-nums;
 }
 .stat-card .stat-sub {
   color: var(--text-muted);
   font-size: 12px;
   margin-top: 6px;
 }
-
-/* Hero Card */
-.hero-card {
-  background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #6366f1 100%);
-  border-radius: 16px;
-  padding: 28px;
-  color: white;
-  position: relative;
-  overflow: hidden;
-  border: none;
-}
-.hero-card::before {
-  content: '';
-  position: absolute;
-  top: -50%; right: -20%;
-  width: 400px; height: 400px;
-  background: radial-gradient(circle, rgba(255,255,255,0.15), transparent 70%);
-  border-radius: 50%;
-}
-.hero-card .hero-label {
-  font-size: 12px;
-  opacity: 0.85;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  font-weight: 600;
-}
-.hero-card .hero-value {
-  font-size: 36px;
-  font-weight: 800;
-  margin: 8px 0;
-  font-family: 'Space Grotesk', monospace;
-}
-.hero-card .hero-sub { font-size: 13px; opacity: 0.85; }
 
 /* Tables */
 .data-table {
@@ -220,7 +208,7 @@ body {
   font-size: 13px;
   vertical-align: middle;
 }
-.data-table .table tbody tr:hover { background: var(--bg-card-hover); cursor: pointer; }
+.data-table .table tbody tr:hover { background: var(--bg-card-hover); }
 .data-table .table tbody tr:last-child td { border-bottom: none; }
 
 /* Badges */
@@ -233,11 +221,11 @@ body {
   align-items: center;
   gap: 4px;
 }
-.badge-blue { background: rgba(59,130,246,0.15); color: var(--accent-blue); }
 .badge-green { background: rgba(16,185,129,0.15); color: var(--accent-green); }
+.badge-blue { background: rgba(59,130,246,0.15); color: var(--accent-blue); }
+.badge-purple { background: rgba(139,92,246,0.15); color: var(--accent-purple); }
 .badge-orange { background: rgba(245,158,11,0.15); color: var(--accent-orange); }
 .badge-red { background: rgba(239,68,68,0.15); color: var(--accent-red); }
-.badge-purple { background: rgba(139,92,246,0.15); color: var(--accent-purple); }
 .badge-cyan { background: rgba(6,182,212,0.15); color: var(--accent-cyan); }
 .badge-gray { background: rgba(107,114,128,0.15); color: var(--text-secondary); }
 
@@ -267,27 +255,6 @@ body {
   font-weight: 600;
 }
 .btn-primary-custom:hover { opacity: 0.9; color: white; }
-
-/* Receipt */
-.receipt-container {
-  background: white;
-  color: #000;
-  font-family: 'Courier New', monospace;
-  padding: 20px;
-  max-width: 320px;
-  margin: 0 auto;
-  font-size: 12px;
-  line-height: 1.5;
-  border-radius: 8px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-}
-.receipt-container pre {
-  white-space: pre-wrap;
-  word-wrap: break-word;
-  margin: 0;
-  font-family: inherit;
-  font-size: 12px;
-}
 
 /* Upload */
 .upload-zone {
@@ -339,35 +306,7 @@ body {
 .page.active { display: block; animation: fadeIn 0.3s; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-/* Modal */
-.modal-custom .modal-content {
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  color: var(--text-primary);
-}
-.modal-custom .modal-header {
-  border-bottom: 1px solid var(--border-color);
-}
-.modal-custom .modal-footer {
-  border-top: 1px solid var(--border-color);
-}
-.modal-custom .btn-close { filter: invert(1); }
-
-/* Detail Item */
-.detail-item-row {
-  display: grid;
-  grid-template-columns: 1fr auto auto;
-  gap: 12px;
-  padding: 10px 0;
-  border-bottom: 1px solid var(--border-color);
-  font-size: 13px;
-}
-.detail-item-row:last-child { border-bottom: none; }
-.detail-item-name { font-weight: 500; }
-.detail-item-qty { color: var(--text-muted); }
-.detail-item-price { font-weight: 600; color: var(--accent-green); }
-
-/* Chart container */
+/* Chart */
 .chart-box {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
@@ -382,6 +321,37 @@ body {
   letter-spacing: 0.5px;
   color: var(--text-muted);
   margin-bottom: 16px;
+}
+
+/* Modal */
+.modal-custom .modal-content {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+}
+.modal-custom .modal-header { border-bottom: 1px solid var(--border-color); }
+.modal-custom .modal-footer { border-top: 1px solid var(--border-color); }
+.modal-custom .btn-close { filter: invert(1); }
+
+/* Receipt */
+.receipt-container {
+  background: white;
+  color: #000;
+  font-family: 'Courier New', monospace;
+  padding: 20px;
+  max-width: 320px;
+  margin: 0 auto;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+.receipt-container pre {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  margin: 0;
+  font-family: inherit;
+  font-size: 12px;
 }
 
 /* Rank */
@@ -404,15 +374,86 @@ body {
   .sidebar { transform: translateX(-100%); }
   .sidebar.open { transform: translateX(0); }
   .main-content { margin-left: 0; }
-  .hero-card .hero-value { font-size: 28px; }
 }
 
-.text-money { font-family: 'Space Grotesk', monospace; font-weight: 600; }
+.text-money { font-variant-numeric: tabular-nums; font-weight: 600; }
 .clickable { cursor: pointer; }
-.mono { font-family: 'Space Grotesk', 'Courier New', monospace; }
+.mono { font-family: 'Courier New', monospace; }
+
+/* KPI Hero */
+.kpi-hero {
+  background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #6366f1 100%);
+  border-radius: 16px;
+  padding: 24px;
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+[data-theme="light"] .kpi-hero {
+  background: linear-gradient(135deg, #2563eb 0%, #3b82f6 50%, #6366f1 100%);
+}
+.kpi-hero::before {
+  content: '';
+  position: absolute;
+  top: -50%; right: -20%;
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(255,255,255,0.15), transparent 70%);
+  border-radius: 50%;
+}
+.kpi-hero .kpi-label { font-size: 12px; opacity: 0.85; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+.kpi-hero .kpi-value { font-size: 32px; font-weight: 800; margin: 8px 0; font-variant-numeric: tabular-nums; }
+.kpi-hero .kpi-sub { font-size: 13px; opacity: 0.85; }
+
+/* Toggle */
+.theme-toggle {
+  width: 44px; height: 24px;
+  background: var(--border-color);
+  border-radius: 12px;
+  position: relative;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.theme-toggle::after {
+  content: '';
+  position: absolute;
+  top: 2px; left: 2px;
+  width: 20px; height: 20px;
+  background: white;
+  border-radius: 50%;
+  transition: transform 0.3s;
+}
+.theme-toggle.active { background: var(--accent-blue); }
+.theme-toggle.active::after { transform: translateX(20px); }
+
+/* Detail Item */
+.detail-item-row {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border-color);
+  font-size: 13px;
+}
+.detail-item-row:last-child { border-bottom: none; }
+.detail-item-name { font-weight: 500; }
+.detail-item-qty { color: var(--text-muted); }
+.detail-item-price { font-weight: 600; color: var(--accent-green); }
+
+/* Live indicator */
+.live-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--accent-green);
+  display: inline-block;
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(16,185,129,0.7); }
+  50% { box-shadow: 0 0 0 8px rgba(16,185,129,0); }
+}
 </style>
 </head>
-<body>
+<body data-theme="dark">
 
 <!-- Loading Screen -->
 <div id="loadingScreen" class="loading-screen">
@@ -436,8 +477,8 @@ body {
     <div class="upload-zone" id="uploadZone">
       <div class="upload-icon"><i class="bi bi-cloud-arrow-up-fill"></i></div>
       <h5 style="font-weight:700">Drop file .db / .sqlite di sini</h5>
-      <p style="color:var(--text-muted);margin:8px 0 20px">atau klik untuk memilih file</p>
-      <input type="file" id="fileInput" accept=".db,.sqlite,.sql" style="display:none">
+      <p style="color:var(--text-muted);margin:8px 0 20px">atau klik untuk memilih file dari perangkat Anda</p>
+      <input type="file" id="fileInput" accept=".db,.sqlite" style="display:none">
       <button class="btn btn-primary-custom" onclick="document.getElementById('fileInput').click()">
         <i class="bi bi-folder2-open"></i> Pilih File Database
       </button>
@@ -486,142 +527,124 @@ body {
       <div class="nav-section-title">System</div>
       <div class="nav-item" data-page="monitoring"><i class="bi bi-cloud-check-fill"></i> Monitoring Sync</div>
       <div class="nav-item" data-page="apilog"><i class="bi bi-terminal-fill"></i> API Log</div>
+      <div class="nav-item" data-page="report"><i class="bi bi-file-earmark-bar-graph-fill"></i> Laporan</div>
+      <div class="nav-item" data-page="settings"><i class="bi bi-gear-fill"></i> Settings</div>
       <div class="nav-item" data-page="upload"><i class="bi bi-arrow-repeat"></i> Ganti Database</div>
     </div>
   </aside>
 
-  <!-- Main -->
+  <div id="sidebarOverlay" class="hidden fixed inset-0 bg-black/50 z-30 d-lg-none" onclick="toggleSidebar()" style="display:none"></div>
+
   <div class="main-content">
     <div class="topbar">
       <div style="display:flex;align-items:center;gap:14px">
-        <button class="btn-custom d-lg-none" onclick="document.getElementById('sidebar').classList.toggle('open')">
-          <i class="bi bi-list"></i>
-        </button>
+        <button class="btn-custom d-lg-none" onclick="toggleSidebar()"><i class="bi bi-list"></i></button>
         <div>
           <h5 style="margin:0;font-weight:700" id="pageTitle">Dashboard</h5>
           <small style="color:var(--text-muted)" id="pageSubtitle">Monitoring real-time aktivitas toko</small>
         </div>
       </div>
       <div style="display:flex;align-items:center;gap:10px">
-        <span class="badge-soft badge-green"><i class="bi bi-circle-fill" style="font-size:6px"></i> LIVE</span>
+        <span class="badge-soft badge-green"><span class="live-dot"></span> LIVE</span>
         <span class="badge-soft badge-blue" id="dbInfo">-</span>
+        <div class="theme-toggle" id="themeToggle" onclick="toggleTheme()"></div>
       </div>
     </div>
 
     <div class="content-area">
+
       <!-- DASHBOARD PAGE -->
       <div class="page active" id="page-dashboard">
-        <!-- Hero -->
-        <div class="hero-card mb-4">
+        <!-- KPI Hero -->
+        <div class="kpi-hero mb-4">
           <div style="position:relative;z-index:1">
             <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
               <div>
-                <div class="hero-label"><i class="bi bi-cash-stack"></i> Omzet Hari Ini</div>
-                <div class="hero-value" id="heroOmzet">Rp 0</div>
-                <div class="hero-sub"><span id="heroTxCount">0</span> transaksi • <span id="heroItemCount">0</span> item terjual</div>
+                <div class="kpi-label"><i class="bi bi-cash-stack"></i> Uang Fisik Transaksi</div>
+                <div class="kpi-value" id="heroUangFisik">Rp 0</div>
+                <div class="kpi-sub">
+                  <span id="heroCash">Cash: Rp 0</span> • 
+                  <span id="heroChange">Kembalian: Rp 0</span>
+                </div>
               </div>
               <div style="text-align:right">
-                <div class="hero-label">Periode Data</div>
+                <div class="kpi-label">Periode Data</div>
                 <div style="font-size:18px;font-weight:700" id="heroPeriod">-</div>
-                <div class="hero-sub" id="heroCashierInfo">-</div>
+                <div class="kpi-sub" id="heroCashierInfo">-</div>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Stats Grid -->
+        <!-- 4 KPI Cards -->
         <div class="row g-3 mb-4">
           <div class="col-md-6 col-xl-3">
-            <div class="stat-card">
-              <div class="stat-icon" style="background:rgba(59,130,246,0.15);color:var(--accent-blue)"><i class="bi bi-calendar-check-fill"></i></div>
-              <div class="stat-label">Omzet Bulan Ini</div>
-              <div class="stat-value text-money" id="statOmzetBulan">Rp 0</div>
-              <div class="stat-sub" id="statOmzetBulanSub">-</div>
+            <div class="stat-card green">
+              <div class="stat-icon" style="background:rgba(16,185,129,0.15);color:var(--accent-green)"><i class="bi bi-graph-up-arrow"></i></div>
+              <div class="stat-label">Sales</div>
+              <div class="stat-value text-money" id="kpiSales">Rp 0</div>
+              <div class="stat-sub" id="kpiSalesSub">Total omzet</div>
             </div>
           </div>
           <div class="col-md-6 col-xl-3">
-            <div class="stat-card">
-              <div class="stat-icon" style="background:rgba(16,185,129,0.15);color:var(--accent-green)"><i class="bi bi-bag-check-fill"></i></div>
-              <div class="stat-label">Total Transaksi</div>
-              <div class="stat-value" id="statTotalTx">0</div>
-              <div class="stat-sub" id="statAvgTx">Rata-rata: Rp 0</div>
+            <div class="stat-card blue">
+              <div class="stat-icon" style="background:rgba(59,130,246,0.15);color:var(--accent-blue)"><i class="bi bi-person-check-fill"></i></div>
+              <div class="stat-label">Qty Member</div>
+              <div class="stat-value" id="kpiQtyMember">0</div>
+              <div class="stat-sub" id="kpiQtyMemberSub">Transaksi member</div>
             </div>
           </div>
           <div class="col-md-6 col-xl-3">
-            <div class="stat-card">
-              <div class="stat-icon" style="background:rgba(245,158,11,0.15);color:var(--accent-orange)"><i class="bi bi-box-fill"></i></div>
-              <div class="stat-label">Total Item Terjual</div>
-              <div class="stat-value" id="statTotalItem">0</div>
-              <div class="stat-sub" id="statTotalItemSub">-</div>
+            <div class="stat-card purple">
+              <div class="stat-icon" style="background:rgba(139,92,246,0.15);color:var(--accent-purple)"><i class="bi bi-person-hearts"></i></div>
+              <div class="stat-label">Sales Member</div>
+              <div class="stat-value text-money" id="kpiSalesMember">Rp 0</div>
+              <div class="stat-sub" id="kpiSalesMemberSub">Omzet member</div>
             </div>
           </div>
           <div class="col-md-6 col-xl-3">
-            <div class="stat-card">
-              <div class="stat-icon" style="background:rgba(139,92,246,0.15);color:var(--accent-purple)"><i class="bi bi-people-fill"></i></div>
-              <div class="stat-label">Kasir Aktif</div>
-              <div class="stat-value" id="statKasir">0</div>
-              <div class="stat-sub" id="statKasirSub">-</div>
+            <div class="stat-card orange">
+              <div class="stat-icon" style="background:rgba(245,158,11,0.15);color:var(--accent-orange)"><i class="bi bi-cash-coin"></i></div>
+              <div class="stat-label">Uang Fisik Transaksi</div>
+              <div class="stat-value text-money" id="kpiUangFisik">Rp 0</div>
+              <div class="stat-sub" id="kpiUangFisikSub">Cash - Kembalian</div>
             </div>
           </div>
         </div>
 
-        <!-- Payment Breakdown -->
-        <div class="row g-3 mb-4">
-          <div class="col-md-4">
-            <div class="stat-card" style="border-left:3px solid var(--accent-green)">
-              <div style="display:flex;justify-content:space-between;align-items:center">
-                <div>
-                  <div class="stat-label"><i class="bi bi-cash-coin"></i> Cash</div>
-                  <div class="stat-value text-money" id="statCash">Rp 0</div>
-                </div>
-                <div style="font-size:32px;color:var(--accent-green);opacity:0.3"><i class="bi bi-cash-stack"></i></div>
-              </div>
-              <div class="stat-sub" id="statCashSub">-</div>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="stat-card" style="border-left:3px solid var(--accent-cyan)">
-              <div style="display:flex;justify-content:space-between;align-items:center">
-                <div>
-                  <div class="stat-label"><i class="bi bi-phone-fill"></i> Wallet / E-Money</div>
-                  <div class="stat-value text-money" id="statWallet">Rp 0</div>
-                </div>
-                <div style="font-size:32px;color:var(--accent-cyan);opacity:0.3"><i class="bi bi-phone"></i></div>
-              </div>
-              <div class="stat-sub" id="statWalletSub">-</div>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="stat-card" style="border-left:3px solid var(--accent-purple)">
-              <div style="display:flex;justify-content:space-between;align-items:center">
-                <div>
-                  <div class="stat-label"><i class="bi bi-credit-card-fill"></i> Kartu</div>
-                  <div class="stat-value text-money" id="statCard">Rp 0</div>
-                </div>
-                <div style="font-size:32px;color:var(--accent-purple);opacity:0.3"><i class="bi bi-credit-card"></i></div>
-              </div>
-              <div class="stat-sub" id="statCardSub">-</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Charts Row -->
+        <!-- Charts Row 1 -->
         <div class="row g-3 mb-4">
           <div class="col-lg-8">
             <div class="chart-box">
-              <h6><i class="bi bi-graph-up"></i> Omzet Per Jam</h6>
-              <canvas id="chartHourly" height="110"></canvas>
+              <h6><i class="bi bi-graph-up"></i> Sales per Jam</h6>
+              <canvas id="chartSalesHourly" height="110"></canvas>
             </div>
           </div>
           <div class="col-lg-4">
             <div class="chart-box">
-              <h6><i class="bi bi-pie-chart-fill"></i> Komposisi Pembayaran</h6>
+              <h6><i class="bi bi-pie-chart-fill"></i> Pembayaran per Metode</h6>
               <canvas id="chartPayment" height="180"></canvas>
             </div>
           </div>
         </div>
 
-        <!-- Top Products Preview -->
+        <!-- Charts Row 2 -->
+        <div class="row g-3 mb-4">
+          <div class="col-lg-6">
+            <div class="chart-box">
+              <h6><i class="bi bi-people-fill"></i> Member per Jam</h6>
+              <canvas id="chartMemberHourly" height="110"></canvas>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="chart-box">
+              <h6><i class="bi bi-trophy-fill"></i> Top 10 Produk</h6>
+              <canvas id="chartTopProducts" height="110"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Top Products Table + Recent Tx -->
         <div class="row g-3">
           <div class="col-lg-7">
             <div class="data-table">
@@ -734,6 +757,26 @@ body {
             </div>
           </div>
         </div>
+        <div class="row g-3 mb-4">
+          <div class="col-md-4">
+            <div class="stat-card green">
+              <div class="stat-label">Total Cash</div>
+              <div class="stat-value text-money" id="payCash">Rp 0</div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="stat-card cyan">
+              <div class="stat-label">Total Wallet</div>
+              <div class="stat-value text-money" id="payWallet">Rp 0</div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="stat-card purple">
+              <div class="stat-label">Total Kartu</div>
+              <div class="stat-value text-money" id="payCard">Rp 0</div>
+            </div>
+          </div>
+        </div>
         <div class="data-table">
           <div style="padding:16px 20px;border-bottom:1px solid var(--border-color)">
             <h6 style="margin:0;font-weight:700"><i class="bi bi-wallet2"></i> Detail Transaksi Wallet</h6>
@@ -750,9 +793,9 @@ body {
       <!-- MONITORING PAGE -->
       <div class="page" id="page-monitoring">
         <div class="row g-3 mb-4">
-          <div class="col-md-4"><div class="stat-card" style="border-left:3px solid var(--accent-green)"><div class="stat-label"><i class="bi bi-check-circle-fill"></i> Sync Berhasil</div><div class="stat-value" id="monSynced">0</div></div></div>
-          <div class="col-md-4"><div class="stat-card" style="border-left:3px solid var(--accent-orange)"><div class="stat-label"><i class="bi bi-hourglass-split"></i> Pending</div><div class="stat-value" id="monPending">0</div></div></div>
-          <div class="col-md-4"><div class="stat-card" style="border-left:3px solid var(--accent-red)"><div class="stat-label"><i class="bi bi-x-circle-fill"></i> Gagal</div><div class="stat-value" id="monFailed">0</div></div></div>
+          <div class="col-md-4"><div class="stat-card green"><div class="stat-label"><i class="bi bi-check-circle-fill"></i> Sync Berhasil</div><div class="stat-value" id="monSynced">0</div></div></div>
+          <div class="col-md-4"><div class="stat-card orange"><div class="stat-label"><i class="bi bi-hourglass-split"></i> Pending</div><div class="stat-value" id="monPending">0</div></div></div>
+          <div class="col-md-4"><div class="stat-card red"><div class="stat-label"><i class="bi bi-x-circle-fill"></i> Gagal</div><div class="stat-value" id="monFailed">0</div></div></div>
         </div>
         <div class="data-table">
           <div style="padding:16px 20px;border-bottom:1px solid var(--border-color)">
@@ -785,6 +828,63 @@ body {
         </div>
       </div>
 
+      <!-- REPORT PAGE -->
+      <div class="page" id="page-report">
+        <div class="row g-3 mb-4">
+          <div class="col-md-6">
+            <div class="chart-box">
+              <h6><i class="bi bi-bar-chart-fill"></i> Sales per Jam (Detail)</h6>
+              <canvas id="chartReportSales" height="200"></canvas>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="chart-box">
+              <h6><i class="bi bi-people-fill"></i> Member per Jam (Detail)</h6>
+              <canvas id="chartReportMember" height="200"></canvas>
+            </div>
+          </div>
+        </div>
+        <div class="data-table">
+          <div style="padding:16px 20px;border-bottom:1px solid var(--border-color)">
+            <h6 style="margin:0;font-weight:700"><i class="bi bi-file-earmark-bar-graph-fill"></i> Ringkasan Laporan</h6>
+          </div>
+          <div style="padding:20px">
+            <div id="reportSummary"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SETTINGS PAGE -->
+      <div class="page" id="page-settings">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <div class="stat-card">
+              <h6 style="font-weight:700;margin-bottom:16px"><i class="bi bi-info-circle-fill"></i> Informasi Database</h6>
+              <div id="dbInfoContent"></div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="stat-card">
+              <h6 style="font-weight:700;margin-bottom:16px"><i class="bi bi-palette-fill"></i> Tampilan</h6>
+              <div class="d-flex justify-content-between align-items-center p-3" style="background:var(--bg-secondary);border-radius:8px;margin-bottom:12px">
+                <div>
+                  <div style="font-weight:600">Dark Mode</div>
+                  <small style="color:var(--text-muted)">Tampilan gelap</small>
+                </div>
+                <div class="theme-toggle" id="darkToggle" onclick="setTheme('dark')"></div>
+              </div>
+              <div class="d-flex justify-content-between align-items-center p-3" style="background:var(--bg-secondary);border-radius:8px">
+                <div>
+                  <div style="font-weight:600">Light Mode</div>
+                  <small style="color:var(--text-muted)">Tampilan terang</small>
+                </div>
+                <div class="theme-toggle" id="lightToggle" onclick="setTheme('light')"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- UPLOAD PAGE -->
       <div class="page" id="page-upload">
         <div class="upload-zone" id="uploadZone2">
@@ -797,6 +897,7 @@ body {
           </button>
         </div>
       </div>
+
     </div>
   </div>
 </div>
@@ -852,6 +953,7 @@ body {
    GLOBAL STATE
    ============================================================ */
 let DB = null;
+let SQLLib = null;
 let DATA = {
   tsale: [],
   trans: [],
@@ -863,7 +965,9 @@ let DATA = {
   sync: [],
   connection: [],
   usi: [],
-  pluNames: {}
+  pluNames: {},
+  storeId: 'T939',
+  storeName: 'Cirokek'
 };
 let currentFakturModal = null;
 let charts = {};
@@ -875,24 +979,23 @@ const fmtRp = n => 'Rp ' + Math.round(n||0).toLocaleString('id-ID');
 const fmtNum = n => (n||0).toLocaleString('id-ID');
 const escHtml = s => String(s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
-function parseDate(d) {
-  if (!d) return null;
-  const s = String(d).trim();
-  // Format: DD/MM/YYYY or YYYY-MM-DD
-  if (/^\d{2}\/\d{2}\/\d{4}/.test(s)) {
-    const [dd,mm,yy] = s.split(/[\/\s]/);
-    return new Date(`${yy}-${mm}-${dd}`);
-  }
-  const dt = new Date(s);
-  return isNaN(dt) ? null : dt;
-}
-
 function parseTime(t) {
   if (!t) return null;
   const s = String(t).trim();
   const m = s.match(/(\d{1,2}):(\d{1,2})(?::(\d{1,2}))?/);
   if (!m) return null;
   return { h: parseInt(m[1]), m: parseInt(m[2]), s: parseInt(m[3]||0) };
+}
+
+function parseDate(d) {
+  if (!d) return null;
+  const s = String(d).trim();
+  if (/^\d{2}\/\d{2}\/\d{4}/.test(s)) {
+    const [dd,mm,yy] = s.split(/[\/\s]/);
+    return new Date(`${yy}-${mm}-${dd}`);
+  }
+  const dt = new Date(s);
+  return isNaN(dt) ? null : dt;
 }
 
 function fmtDateTime(date, time) {
@@ -909,14 +1012,6 @@ function fmtDateTime(date, time) {
 /* ============================================================
    SQL LOADER
    ============================================================ */
-async function initSqlJs() {
-  const SQL = await initSqlJsLib({
-    locateFile: file => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/${file}`
-  });
-  return SQL;
-}
-
-let SQLLib = null;
 async function initSqlJsLib(cfg) {
   return await window.initSqlJs(cfg);
 }
@@ -939,7 +1034,9 @@ async function loadDatabase(file) {
     const buf = await file.arrayBuffer();
 
     setProgress(30, 'Memuat SQLite engine...', 'Inisialisasi sql.js');
-    if (!SQLLib) SQLLib = await initSqlJs();
+    if (!SQLLib) SQLLib = await initSqlJsLib({
+      locateFile: file => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/${file}`
+    });
 
     setProgress(50, 'Parsing database...', 'Membaca struktur tabel');
     DB = new SQLLib.Database(new Uint8Array(buf));
@@ -992,56 +1089,45 @@ async function extractData() {
   DATA.connection = queryAll('SELECT * FROM log_connection');
   DATA.usi = queryAll('SELECT * FROM tx_usi');
 
+  // Extract store info
+  const appInfo = queryAll('SELECT * FROM log_app_info LIMIT 1');
+  if (appInfo.length) {
+    DATA.storeId = appInfo[0].store_id || 'T939';
+  }
+  if (DATA.usi.length && DATA.usi[0].store_name) {
+    DATA.storeName = DATA.usi[0].store_name.replace(/\[.*\]/, '').trim();
+  }
+
   // Extract PLU names from receipts
   extractPluNames();
 }
 
 function extractPluNames() {
   // Parse receipt body1 to get product names
-  // Format: "PLU_NAME      QTY  PRICE    TOTAL|"
-  DATA.receipt.forEach(r => {
-    const body = (r.body1 || '') + (r.body2 || '');
-    if (!body) return;
-    const lines = body.split('|').filter(l => l.trim());
-    lines.forEach(line => {
-      // Match pattern: NAME QTY PRICE TOTAL
-      // Example: "KP BRANDING (M)      1     200       200"
-      const m = line.match(/^(.+?)\s+(-?\d+(?:\.\d+)?)\s+([\d.,-]+)\s+([\d.,-]+)$/);
-      if (m) {
-        const name = m[1].trim();
-        // Skip packaging
-        if (/^(KP BRANDING|KEMBALIAN|Tunai|Total|Disc\.|PPN|DONASI)/.test(name)) return;
-        // Try to match PLU from trans data
-        // We'll use name as-is for now
-      }
-    });
-  });
-
-  // Better approach: match by faktur and sort_no from tx_trans
-  // Build a map from receipt lines per faktur
+  // Format: "PRODUCT_NAME      QTY  PRICE    TOTAL|"
   const receiptByFaktur = {};
   DATA.receipt.forEach(r => {
     const faktur = r.faktur || r.bill_no;
     if (!faktur) return;
     const body = (r.body1 || '') + (r.body2 || '');
-    const lines = body.split('|').filter(l => l.trim() && !/^(Bon|===|---|\s*$)/.test(l.trim()));
+    const lines = body.split('|').filter(l => l.trim());
     receiptByFaktur[faktur] = lines;
   });
 
-  // For each trans, try to find name from receipt
-  // Group trans by faktur
-  const transByFaktur = {};
+  // Group trans by bill_no
+  const transByBill = {};
   DATA.trans.forEach(t => {
-    const f = t.faktur || t.bill_no;
-    if (!transByFaktur[f]) transByFaktur[f] = [];
-    transByFaktur[f].push(t);
+    const b = t.bill_no;
+    if (!transByBill[b]) transByBill[b] = [];
+    transByBill[b].push(t);
   });
 
   // Match
-  Object.keys(transByFaktur).forEach(faktur => {
-    const lines = receiptByFaktur[faktur] || [];
-    const trans = transByFaktur[faktur].sort((a,b) => (a.sort_no||0) - (b.sort_no||0));
-    // Filter lines that look like products
+  Object.keys(transByBill).forEach(billNo => {
+    const lines = receiptByFaktur[billNo] || [];
+    const trans = transByBill[billNo].sort((a,b) => (a.sort_no||0) - (b.sort_no||0));
+    
+    // Filter product lines (exclude KP BRANDING, totals, etc)
     const prodLines = lines.filter(l => {
       const m = l.match(/^(.+?)\s+(-?\d+(?:\.\d+)?)\s+([\d.,-]+)\s+([\d.,-]+)$/);
       if (!m) return false;
@@ -1067,46 +1153,40 @@ function extractPluNames() {
    CALCULATIONS
    ============================================================ */
 function computeStats() {
-  const today = new Date();
-  const todayStr = `${String(today.getDate()).padStart(2,'0')}/${String(today.getMonth()+1).padStart(2,'0')}/${today.getFullYear()}`;
-
-  // Find data date range
-  const dates = [...new Set(DATA.tsale.map(t => t.date_tx).filter(Boolean))];
-  const dataDate = dates.length ? dates[0] : todayStr;
-
-  // Filter today's transactions
-  const todayTx = DATA.tsale.filter(t => t.date_tx === dataDate);
-  const todayOmzet = todayTx.reduce((s,t) => s + (t.total_faktur||0), 0);
-  const todayItemCount = todayTx.reduce((s,t) => s + (t.qty_pcs||0), 0);
-
-  // Month
-  const monthTx = DATA.tsale;
-  const monthOmzet = monthTx.reduce((s,t) => s + (t.total_faktur||0), 0);
-
-  // Total
-  const totalTx = DATA.tsale.length;
-  const totalItem = DATA.tsale.reduce((s,t) => s + (t.qty_pcs||0), 0);
-  const avgTx = totalTx ? todayOmzet / todayTx.length : 0;
-
-  // Cash: sum of (cash - change_pay)
-  const totalCash = todayTx.reduce((s,t) => s + ((t.cash||0) - (t.change_pay||0)), 0);
+  const todayTx = DATA.tsale;
+  
+  // KPI 1: Sales = SUM(total_faktur)
+  const sales = todayTx.reduce((s,t) => s + (t.total_faktur||0), 0);
+  
+  // KPI 2: Qty Member = COUNT(transaksi member)
+  const memberTx = todayTx.filter(t => t.cust_id && t.cust_id !== '');
+  const qtyMember = memberTx.length;
+  
+  // KPI 3: Sales Member = SUM(total_faktur transaksi member)
+  const salesMember = memberTx.reduce((s,t) => s + (t.total_faktur||0), 0);
+  
+  // KPI 4: Uang Fisik = SUM(cash) - SUM(change_pay)
+  const totalCash = todayTx.reduce((s,t) => s + (t.cash||0), 0);
   const totalChange = todayTx.reduce((s,t) => s + (t.change_pay||0), 0);
+  const uangFisik = totalCash - totalChange;
 
-  // Wallet
-  const todayFakturs = new Set(todayTx.map(t => t.faktur));
-  const totalWallet = DATA.wallet.filter(w => todayFakturs.has(w.faktur)).reduce((s,w) => s + (w.amount||0), 0);
-
-  // Card
-  const totalCard = DATA.card.filter(c => todayFakturs.has(c.faktur)).reduce((s,c) => s + (c.amount||0), 0);
+  // Wallet & Card
+  const totalWallet = DATA.wallet.reduce((s,w) => s + (w.amount||0), 0);
+  const totalCard = DATA.card.reduce((s,c) => s + (c.amount||0), 0);
 
   // Cashiers
   const cashierIds = [...new Set(DATA.tsale.map(t => t.user_id).filter(Boolean))];
 
+  // Date range
+  const dates = [...new Set(DATA.tsale.map(t => t.date_tx).filter(Boolean))];
+  const dataDate = dates.length ? dates[0] : '-';
+
   return {
-    dataDate, todayTx, todayOmzet, todayItemCount,
-    monthOmzet, totalTx, totalItem, avgTx,
+    sales, qtyMember, salesMember, uangFisik,
     totalCash, totalChange, totalWallet, totalCard,
-    cashierIds
+    cashierIds, dataDate,
+    totalTx: DATA.tsale.length,
+    totalItem: DATA.tsale.reduce((s,t) => s + (t.qty_pcs||0), 0)
   };
 }
 
@@ -1138,7 +1218,6 @@ function computeCashiers() {
     map[uid].omzet += t.total_faktur || 0;
     map[uid].items += t.qty_pcs || 0;
   });
-  // Last login
   DATA.login.forEach(l => {
     if (map[l.user_id]) {
       const ts = `${l.date_login} ${l.time_login}`;
@@ -1153,14 +1232,18 @@ function computeCashiers() {
 function computeHourly() {
   const hours = Array(24).fill(0);
   const counts = Array(24).fill(0);
+  const memberHours = Array(24).fill(0);
   DATA.tsale.forEach(t => {
     const tm = parseTime(t.time_tx);
     if (tm) {
       hours[tm.h] += t.total_faktur || 0;
       counts[tm.h]++;
+      if (t.cust_id && t.cust_id !== '') {
+        memberHours[tm.h]++;
+      }
     }
   });
-  return { hours, counts };
+  return { hours, counts, memberHours };
 }
 
 /* ============================================================
@@ -1175,41 +1258,50 @@ function renderAll() {
   renderPayments(stats);
   renderMonitoring();
   renderApiLog();
+  renderReport(stats);
+  renderSettings();
+  
+  document.getElementById('storeLabel').textContent = `${DATA.storeId} • ${DATA.storeName}`;
 }
 
 function renderDashboard(s) {
-  document.getElementById('heroOmzet').textContent = fmtRp(s.todayOmzet);
-  document.getElementById('heroTxCount').textContent = fmtNum(s.todayTx.length);
-  document.getElementById('heroItemCount').textContent = fmtNum(s.todayItemCount);
+  // Hero
+  document.getElementById('heroUangFisik').textContent = fmtRp(s.uangFisik);
+  document.getElementById('heroCash').textContent = 'Cash: ' + fmtRp(s.totalCash);
+  document.getElementById('heroChange').textContent = 'Kembalian: ' + fmtRp(s.totalChange);
   document.getElementById('heroPeriod').textContent = fmtDateTime(s.dataDate);
-  document.getElementById('heroCashierInfo').textContent = `${s.cashierIds.length} kasir aktif`;
+  document.getElementById('heroCashierInfo').textContent = `${s.cashierIds.length} kasir aktif • ${s.totalTx} transaksi`;
 
-  document.getElementById('statOmzetBulan').textContent = fmtRp(s.monthOmzet);
-  document.getElementById('statOmzetBulanSub').textContent = `Total keseluruhan periode`;
-  document.getElementById('statTotalTx').textContent = fmtNum(s.totalTx);
-  document.getElementById('statAvgTx').textContent = `Rata-rata: ${fmtRp(s.avgTx)}`;
-  document.getElementById('statTotalItem').textContent = fmtNum(s.totalItem);
-  document.getElementById('statTotalItemSub').textContent = `Kembalian: ${fmtRp(s.totalChange)}`;
-  document.getElementById('statKasir').textContent = fmtNum(s.cashierIds.length);
-  document.getElementById('statKasirSub').textContent = `Kasir unik aktif`;
-
-  document.getElementById('statCash').textContent = fmtRp(s.totalCash);
-  document.getElementById('statCashSub').textContent = `Tunai bersih (setelah kembalian)`;
-  document.getElementById('statWallet').textContent = fmtRp(s.totalWallet);
-  document.getElementById('statWalletSub').textContent = `${DATA.wallet.length} transaksi wallet`;
-  document.getElementById('statCard').textContent = fmtRp(s.totalCard);
-  document.getElementById('statCardSub').textContent = `${DATA.card.length} transaksi kartu`;
+  // KPI Cards
+  document.getElementById('kpiSales').textContent = fmtRp(s.sales);
+  document.getElementById('kpiSalesSub').textContent = `${s.totalTx} transaksi • ${s.totalItem} item`;
+  
+  document.getElementById('kpiQtyMember').textContent = fmtNum(s.qtyMember);
+  const memberPercent = s.totalTx > 0 ? Math.round((s.qtyMember/s.totalTx)*100) : 0;
+  document.getElementById('kpiQtyMemberSub').textContent = `${memberPercent}% dari total transaksi`;
+  
+  document.getElementById('kpiSalesMember').textContent = fmtRp(s.salesMember);
+  const salesMemberPercent = s.sales > 0 ? Math.round((s.salesMember/s.sales)*100) : 0;
+  document.getElementById('kpiSalesMemberSub').textContent = `${salesMemberPercent}% dari total sales`;
+  
+  document.getElementById('kpiUangFisik').textContent = fmtRp(s.uangFisik);
+  document.getElementById('kpiUangFisikSub').textContent = `Cash ${fmtRp(s.totalCash)} - Kembalian ${fmtRp(s.totalChange)}`;
 
   // Top products
   const products = computeProducts().slice(0, 10);
-  document.getElementById('topProductsBody').innerHTML = products.map((p,i) => `
-    <tr>
-      <td><span class="rank-badge ${i<3?'rank-'+(i+1):'rank-other'}">${i+1}</span></td>
-      <td><div style="font-weight:500">${escHtml(p.name)}</div><small class="mono" style="color:var(--text-muted)">${p.plu}</small></td>
-      <td style="text-align:right"><span class="badge-soft badge-blue">${fmtNum(p.qty)} pcs</span></td>
-      <td style="text-align:right" class="text-money">${fmtRp(p.omzet)}</td>
-    </tr>
-  `).join('');
+  document.getElementById('topProductsBody').innerHTML = products.map((p,i) => {
+    const rank = i + 1;
+    const rankBg = rank === 1 ? 'rank-1' : rank === 2 ? 'rank-2' : rank === 3 ? 'rank-3' : 'rank-other';
+    const medal = rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : '';
+    return `
+      <tr>
+        <td><span class="rank-badge ${rankBg}">${medal || rank}</span></td>
+        <td><div style="font-weight:500">${escHtml(p.name)}</div><div class="text-xs" style="color:var(--text-muted)">PLU: ${p.plu}</div></td>
+        <td style="text-align:right"><span class="badge-soft badge-blue">${fmtNum(p.qty)} pcs</span></td>
+        <td style="text-align:right" class="text-money">${fmtRp(p.omzet)}</td>
+      </tr>
+    `;
+  }).join('');
 
   // Recent transactions
   const recent = [...DATA.tsale].sort((a,b) => {
@@ -1218,8 +1310,8 @@ function renderDashboard(s) {
     return (tb.h*3600+tb.m*60+tb.s) - (ta.h*3600+ta.m*60+ta.s);
   }).slice(0, 8);
   document.getElementById('recentTxBody').innerHTML = recent.map(t => `
-    <tr onclick="showTxDetail('${escHtml(t.faktur)}')">
-      <td class="mono">${escHtml(t.faktur)}</td>
+    <tr onclick="showTxDetail('${escHtml(t.faktur)}')" class="clickable">
+      <td class="mono" style="font-weight:600">${escHtml(t.faktur)}</td>
       <td>${escHtml(t.time_tx||'-')}</td>
       <td style="text-align:right" class="text-money">${fmtRp(t.total_faktur)}</td>
     </tr>
@@ -1232,18 +1324,22 @@ function renderDashboard(s) {
 function renderCharts(s) {
   const hourly = computeHourly();
   const labels = Array.from({length:24}, (_,i) => String(i).padStart(2,'0')+':00');
+  const isDark = document.body.getAttribute('data-theme') === 'dark';
+  const gridColor = isDark ? 'rgba(42,53,80,0.5)' : 'rgba(226,232,240,0.5)';
+  const textColor = isDark ? '#9ca3af' : '#475569';
 
-  if (charts.hourly) charts.hourly.destroy();
-  const ctx1 = document.getElementById('chartHourly').getContext('2d');
-  charts.hourly = new Chart(ctx1, {
+  // Sales per Jam
+  if (charts.salesHourly) charts.salesHourly.destroy();
+  const ctx1 = document.getElementById('chartSalesHourly').getContext('2d');
+  charts.salesHourly = new Chart(ctx1, {
     type: 'bar',
     data: {
       labels,
       datasets: [{
-        label: 'Omzet',
+        label: 'Sales',
         data: hourly.hours,
-        backgroundColor: 'rgba(59,130,246,0.6)',
-        borderColor: 'rgba(59,130,246,1)',
+        backgroundColor: 'rgba(16,185,129,0.6)',
+        borderColor: 'rgba(16,185,129,1)',
         borderWidth: 1,
         borderRadius: 4
       }]
@@ -1252,15 +1348,43 @@ function renderCharts(s) {
       responsive: true,
       plugins: { legend: { display: false } },
       scales: {
-        y: { ticks: { color: '#9ca3af', callback: v => 'Rp '+(v/1000)+'k' }, grid: { color: 'rgba(42,53,80,0.5)' } },
-        x: { ticks: { color: '#9ca3af', maxRotation: 0, autoSkip: true, maxTicksLimit: 12 }, grid: { display: false } }
+        y: { ticks: { color: textColor, callback: v => 'Rp '+(v/1000)+'k' }, grid: { color: gridColor } },
+        x: { ticks: { color: textColor, maxRotation: 0, autoSkip: true, maxTicksLimit: 12 }, grid: { display: false } }
       }
     }
   });
 
+  // Member per Jam
+  if (charts.memberHourly) charts.memberHourly.destroy();
+  const ctx2 = document.getElementById('chartMemberHourly').getContext('2d');
+  charts.memberHourly = new Chart(ctx2, {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [{
+        label: 'Member',
+        data: hourly.memberHours,
+        backgroundColor: 'rgba(59,130,246,0.2)',
+        borderColor: 'rgba(59,130,246,1)',
+        borderWidth: 2,
+        fill: true,
+        tension: 0.4
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { display: false } },
+      scales: {
+        y: { ticks: { color: textColor }, grid: { color: gridColor } },
+        x: { ticks: { color: textColor, maxRotation: 0, autoSkip: true, maxTicksLimit: 12 }, grid: { display: false } }
+      }
+    }
+  });
+
+  // Pembayaran
   if (charts.payment) charts.payment.destroy();
-  const ctx2 = document.getElementById('chartPayment').getContext('2d');
-  charts.payment = new Chart(ctx2, {
+  const ctx3 = document.getElementById('chartPayment').getContext('2d');
+  charts.payment = new Chart(ctx3, {
     type: 'doughnut',
     data: {
       labels: ['Cash', 'Wallet', 'Kartu'],
@@ -1273,7 +1397,35 @@ function renderCharts(s) {
     options: {
       responsive: true,
       plugins: {
-        legend: { position: 'bottom', labels: { color: '#e5e7eb', padding: 12 } }
+        legend: { position: 'bottom', labels: { color: isDark ? '#e5e7eb' : '#0f172a', padding: 12 } }
+      }
+    }
+  });
+
+  // Top Products
+  const products = computeProducts().slice(0, 10);
+  if (charts.topProducts) charts.topProducts.destroy();
+  const ctx4 = document.getElementById('chartTopProducts').getContext('2d');
+  charts.topProducts = new Chart(ctx4, {
+    type: 'bar',
+    data: {
+      labels: products.map(p => p.name.length > 20 ? p.name.substring(0,20)+'...' : p.name),
+      datasets: [{
+        label: 'Qty',
+        data: products.map(p => p.qty),
+        backgroundColor: 'rgba(245,158,11,0.6)',
+        borderColor: 'rgba(245,158,11,1)',
+        borderWidth: 1,
+        borderRadius: 4
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { ticks: { color: textColor }, grid: { color: gridColor } },
+        y: { ticks: { color: textColor, font: { size: 10 } }, grid: { display: false } }
       }
     }
   });
@@ -1297,7 +1449,7 @@ function renderTransactions() {
     if (card) method = '<span class="badge-soft badge-purple">Kartu</span>';
 
     return `
-      <tr onclick="showTxDetail('${escHtml(t.faktur)}')">
+      <tr onclick="showTxDetail('${escHtml(t.faktur)}')" class="clickable">
         <td class="mono" style="font-weight:600">${escHtml(t.faktur)}</td>
         <td>${escHtml(t.time_tx||'-')}</td>
         <td><span class="badge-soft badge-gray"><i class="bi bi-person-fill"></i> ${escHtml(t.user_id)}</span></td>
@@ -1336,9 +1488,10 @@ function renderProducts() {
   const render = (list) => {
     document.getElementById('prodTableBody').innerHTML = list.slice(0, 100).map((p,i) => {
       const rank = i + 1;
+      const rankBg = rank === 1 ? 'rank-1' : rank === 2 ? 'rank-2' : rank === 3 ? 'rank-3' : 'rank-other';
       return `
         <tr>
-          <td><span class="rank-badge ${rank<4?'rank-'+rank:'rank-other'}">${rank}</span></td>
+          <td><span class="rank-badge ${rankBg}">${rank}</span></td>
           <td class="mono" style="font-size:12px">${p.plu}</td>
           <td style="font-weight:500">${escHtml(p.name)}</td>
           <td style="text-align:right"><span class="badge-soft badge-blue">${fmtNum(p.qty)} pcs</span></td>
@@ -1373,7 +1526,7 @@ function renderCashiers() {
                 <small style="color:var(--text-muted)">Login: ${escHtml(lastLogin)}</small>
               </div>
             </div>
-            <span class="badge-soft badge-green"><i class="bi bi-circle-fill" style="font-size:6px"></i> Aktif</span>
+            <span class="badge-soft badge-green"><span class="live-dot"></span> Aktif</span>
           </div>
           <div class="row g-2">
             <div class="col-4">
@@ -1402,6 +1555,13 @@ function renderCashiers() {
 }
 
 function renderPayments(s) {
+  document.getElementById('payCash').textContent = fmtRp(s.totalCash);
+  document.getElementById('payWallet').textContent = fmtRp(s.totalWallet);
+  document.getElementById('payCard').textContent = fmtRp(s.totalCard);
+
+  const isDark = document.body.getAttribute('data-theme') === 'dark';
+  const textColor = isDark ? '#e5e7eb' : '#0f172a';
+
   if (charts.payDist) charts.payDist.destroy();
   const ctx = document.getElementById('chartPayDist').getContext('2d');
   charts.payDist = new Chart(ctx, {
@@ -1412,12 +1572,12 @@ function renderPayments(s) {
         data: [s.totalCash, s.totalWallet, s.totalCard],
         backgroundColor: ['#10b981', '#06b6d4', '#8b5cf6'],
         borderWidth: 2,
-        borderColor: '#1a2234'
+        borderColor: isDark ? '#1a2234' : '#ffffff'
       }]
     },
     options: {
       responsive: true,
-      plugins: { legend: { position: 'bottom', labels: { color: '#e5e7eb' } } }
+      plugins: { legend: { position: 'bottom', labels: { color: textColor } } }
     }
   });
 
@@ -1439,8 +1599,8 @@ function renderPayments(s) {
       responsive: true,
       plugins: { legend: { display: false } },
       scales: {
-        x: { ticks: { color: '#9ca3af', callback: v => 'Rp '+(v/1000)+'k' }, grid: { color: 'rgba(42,53,80,0.5)' } },
-        y: { ticks: { color: '#e5e7eb' }, grid: { display: false } }
+        x: { ticks: { color: textColor, callback: v => 'Rp '+(v/1000)+'k' }, grid: { color: isDark ? 'rgba(42,53,80,0.5)' : 'rgba(226,232,240,0.5)' } },
+        y: { ticks: { color: textColor }, grid: { display: false } }
       }
     }
   });
@@ -1486,7 +1646,6 @@ function renderMonitoring() {
 }
 
 function renderApiLog() {
-  // Populate module filter
   const modules = [...new Set(DATA.connection.map(c => c.module).filter(Boolean))];
   const sel = document.getElementById('apiModuleFilter');
   sel.innerHTML = '<option value="">Semua Module ('+DATA.connection.length+')</option>' +
@@ -1515,6 +1674,130 @@ function renderApiLog() {
   sel.onchange = e => render(e.target.value);
 }
 
+function renderReport(s) {
+  const hourly = computeHourly();
+  const labels = Array.from({length:24}, (_,i) => String(i).padStart(2,'0')+':00');
+  const isDark = document.body.getAttribute('data-theme') === 'dark';
+  const gridColor = isDark ? 'rgba(42,53,80,0.5)' : 'rgba(226,232,240,0.5)';
+  const textColor = isDark ? '#9ca3af' : '#475569';
+
+  if (charts.reportSales) charts.reportSales.destroy();
+  const ctx1 = document.getElementById('chartReportSales').getContext('2d');
+  charts.reportSales = new Chart(ctx1, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [{
+        label: 'Sales',
+        data: hourly.hours,
+        backgroundColor: 'rgba(16,185,129,0.6)',
+        borderColor: 'rgba(16,185,129,1)',
+        borderWidth: 1,
+        borderRadius: 4
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { display: false } },
+      scales: {
+        y: { ticks: { color: textColor, callback: v => 'Rp '+(v/1000)+'k' }, grid: { color: gridColor } },
+        x: { ticks: { color: textColor }, grid: { display: false } }
+      }
+    }
+  });
+
+  if (charts.reportMember) charts.reportMember.destroy();
+  const ctx2 = document.getElementById('chartReportMember').getContext('2d');
+  charts.reportMember = new Chart(ctx2, {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [{
+        label: 'Member',
+        data: hourly.memberHours,
+        backgroundColor: 'rgba(59,130,246,0.2)',
+        borderColor: 'rgba(59,130,246,1)',
+        borderWidth: 2,
+        fill: true,
+        tension: 0.4
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { display: false } },
+      scales: {
+        y: { ticks: { color: textColor }, grid: { color: gridColor } },
+        x: { ticks: { color: textColor }, grid: { display: false } }
+      }
+    }
+  });
+
+  // Summary
+  const products = computeProducts();
+  const cashiers = computeCashiers();
+  document.getElementById('reportSummary').innerHTML = `
+    <div class="row g-3">
+      <div class="col-md-6">
+        <h6 style="font-weight:700">Ringkasan Transaksi</h6>
+        <table class="table" style="color:var(--text-primary)">
+          <tr><td>Total Transaksi</td><td style="text-align:right;font-weight:700">${fmtNum(s.totalTx)}</td></tr>
+          <tr><td>Total Item</td><td style="text-align:right;font-weight:700">${fmtNum(s.totalItem)}</td></tr>
+          <tr><td>Rata-rata per Transaksi</td><td style="text-align:right;font-weight:700">${fmtRp(s.totalTx ? s.sales/s.totalTx : 0)}</td></tr>
+          <tr><td>Rata-rata per Item</td><td style="text-align:right;font-weight:700">${fmtRp(s.totalItem ? s.sales/s.totalItem : 0)}</td></tr>
+        </table>
+      </div>
+      <div class="col-md-6">
+        <h6 style="font-weight:700">Ringkasan Member</h6>
+        <table class="table" style="color:var(--text-primary)">
+          <tr><td>Transaksi Member</td><td style="text-align:right;font-weight:700">${fmtNum(s.qtyMember)}</td></tr>
+          <tr><td>Sales Member</td><td style="text-align:right;font-weight:700">${fmtRp(s.salesMember)}</td></tr>
+          <tr><td>Persentase Member</td><td style="text-align:right;font-weight:700">${s.totalTx > 0 ? Math.round((s.qtyMember/s.totalTx)*100) : 0}%</td></tr>
+          <tr><td>Rata-rata per Member</td><td style="text-align:right;font-weight:700">${fmtRp(s.qtyMember ? s.salesMember/s.qtyMember : 0)}</td></tr>
+        </table>
+      </div>
+      <div class="col-md-6">
+        <h6 style="font-weight:700">Ringkasan Pembayaran</h6>
+        <table class="table" style="color:var(--text-primary)">
+          <tr><td>Cash</td><td style="text-align:right;font-weight:700">${fmtRp(s.totalCash)}</td></tr>
+          <tr><td>Wallet</td><td style="text-align:right;font-weight:700">${fmtRp(s.totalWallet)}</td></tr>
+          <tr><td>Kartu</td><td style="text-align:right;font-weight:700">${fmtRp(s.totalCard)}</td></tr>
+          <tr><td>Kembalian</td><td style="text-align:right;font-weight:700;color:var(--accent-orange)">${fmtRp(s.totalChange)}</td></tr>
+        </table>
+      </div>
+      <div class="col-md-6">
+        <h6 style="font-weight:700">Ringkasan Produk & Kasir</h6>
+        <table class="table" style="color:var(--text-primary)">
+          <tr><td>Produk Unik</td><td style="text-align:right;font-weight:700">${fmtNum(products.length)}</td></tr>
+          <tr><td>Total Qty Terjual</td><td style="text-align:right;font-weight:700">${fmtNum(products.reduce((s,p)=>s+p.qty,0))}</td></tr>
+          <tr><td>Kasir Aktif</td><td style="text-align:right;font-weight:700">${fmtNum(cashiers.length)}</td></tr>
+          <tr><td>Uang Fisik Transaksi</td><td style="text-align:right;font-weight:700;color:var(--accent-orange)">${fmtRp(s.uangFisik)}</td></tr>
+        </table>
+      </div>
+    </div>
+  `;
+}
+
+function renderSettings() {
+  const stats = computeStats();
+  document.getElementById('dbInfoContent').innerHTML = `
+    <table class="table" style="color:var(--text-primary)">
+      <tr><td>Store ID</td><td style="text-align:right;font-weight:700">${DATA.storeId}</td></tr>
+      <tr><td>Nama Toko</td><td style="text-align:right;font-weight:700">${DATA.storeName}</td></tr>
+      <tr><td>Tanggal Data</td><td style="text-align:right;font-weight:700">${fmtDateTime(stats.dataDate)}</td></tr>
+      <tr><td>Total Transaksi</td><td style="text-align:right;font-weight:700">${fmtNum(stats.totalTx)}</td></tr>
+      <tr><td>Total Item</td><td style="text-align:right;font-weight:700">${fmtNum(stats.totalItem)}</td></tr>
+      <tr><td>Kasir Aktif</td><td style="text-align:right;font-weight:700">${fmtNum(stats.cashierIds.length)}</td></tr>
+      <tr><td>Member Unik</td><td style="text-align:right;font-weight:700">${fmtNum(stats.qtyMember)}</td></tr>
+    </table>
+  `;
+
+  // Update toggles
+  const isDark = document.body.getAttribute('data-theme') === 'dark';
+  document.getElementById('darkToggle').classList.toggle('active', isDark);
+  document.getElementById('lightToggle').classList.toggle('active', !isDark);
+  document.getElementById('themeToggle').classList.toggle('active', isDark);
+}
+
 /* ============================================================
    MODALS
    ============================================================ */
@@ -1525,7 +1808,7 @@ function showTxDetail(faktur) {
 
   document.getElementById('txModalFaktur').textContent = faktur;
 
-  const items = DATA.trans.filter(t => t.faktur === faktur).sort((a,b) => (a.sort_no||0) - (b.sort_no||0));
+  const items = DATA.trans.filter(t => t.faktur === faktur || t.bill_no === tx.faktur).sort((a,b) => (a.sort_no||0) - (b.sort_no||0));
   const usi = DATA.usi.find(u => u.faktur === faktur);
   const receipt = DATA.receipt.find(r => r.faktur === faktur || r.bill_no === faktur);
 
@@ -1593,7 +1876,6 @@ function showReceipt(faktur) {
     return;
   }
 
-  // Reconstruct receipt
   const header = (r.header || '').replace(/\|/g, '\n');
   const body1 = (r.body1 || '').replace(/\|/g, '\n');
   const body2 = (r.body2 || '').replace(/\|/g, '\n');
@@ -1666,6 +1948,8 @@ const pageTitles = {
   payments: ['Pembayaran', 'Analisis metode pembayaran'],
   monitoring: ['Monitoring Sync', 'Status sinkronisasi transaksi'],
   apilog: ['API Log', 'Log koneksi API POS'],
+  report: ['Laporan', 'Ringkasan dan analisis lengkap'],
+  settings: ['Settings', 'Konfigurasi dashboard'],
   upload: ['Ganti Database', 'Upload database SQLite baru']
 };
 
@@ -1677,12 +1961,42 @@ function showPage(page) {
   const [title, sub] = pageTitles[page] || ['',''];
   document.getElementById('pageTitle').textContent = title;
   document.getElementById('pageSubtitle').textContent = sub;
-  if (window.innerWidth < 992) document.getElementById('sidebar').classList.remove('open');
+  if (window.innerWidth < 992) {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('sidebarOverlay').style.display = 'none';
+  }
 }
 
 document.querySelectorAll('.nav-item').forEach(n => {
   n.addEventListener('click', () => showPage(n.dataset.page));
 });
+
+function toggleSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('sidebarOverlay');
+  sidebar.classList.toggle('open');
+  overlay.style.display = sidebar.classList.contains('open') ? 'block' : 'none';
+}
+
+/* ============================================================
+   THEME
+   ============================================================ */
+function toggleTheme() {
+  const current = document.body.getAttribute('data-theme');
+  setTheme(current === 'dark' ? 'light' : 'dark');
+}
+
+function setTheme(theme) {
+  document.body.setAttribute('data-theme', theme);
+  localStorage.setItem('theme', theme);
+  renderSettings();
+  // Re-render charts with new colors
+  if (DATA.tsale.length > 0) {
+    const stats = computeStats();
+    renderCharts(stats);
+    renderReport(stats);
+  }
+}
 
 /* ============================================================
    FILE UPLOAD HANDLING
@@ -1711,9 +2025,14 @@ function setupUpload(zoneId, inputId) {
    INIT
    ============================================================ */
 window.addEventListener('DOMContentLoaded', async () => {
+  // Load saved theme
+  const savedTheme = localStorage.getItem('theme') || 'dark';
+  document.body.setAttribute('data-theme', savedTheme);
+
   try {
-    // Preload sql.js
-    SQLLib = await initSqlJs();
+    SQLLib = await initSqlJsLib({
+      locateFile: file => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/${file}`
+    });
     document.getElementById('loadingScreen').style.display = 'none';
     document.getElementById('uploadScreen').style.display = 'flex';
     setupUpload('uploadZone', 'fileInput');
